@@ -4,18 +4,22 @@ git remote add KamzolovNikita https://github.com/KamzolovNikita/spbetu_comparch_
 git remote add kirill-1103    https://github.com/kirill-1103/spbetu_comparch_2020_9383.git                 # Крейсманн
 git remote add Kirill-Mois    https://github.com/Kirill-Mois/spbetu_comparch_2020_9383.git                 # Моисейченко
 git remote add Anny45         https://github.com/Anny45/spbetu_comparch_2020_9383.git                      # Карпекина
-#git remote add                                  https://github.com//spbetu_os_2020_8381.git
-#git remote add                                  https://github.com//spbetu_os_2020_8381.git
-#git remote add                                  https://github.com//spbetu_os_2020_8381.git
-#git remote add                                  https://github.com//spbetu_os_2020_8381.git
-#git remote add                                  https://github.com//spbetu_os_2020_8381.git
-#git remote add                                  https://github.com//spbetu_os_2020_8381.git
-#git remote add                                  https://github.com//spbetu_os_2020_8381.git
-#git remote add                                  https://github.com//spbetu_os_2020_8381.git
-#git remote add                                  https://github.com//spbetu_os_2020_8381.git
-#git remote add                                  https://github.com//spbetu_os_2020_8381.git
-#git remote add                                  https://github.com//spbetu_os_2020_8381.git
-#git remote add                                  https://github.com//spbetu_os_2020_8381.git
-#git remote add                                  https://github.com//spbetu_os_2020_8381.git
-#git remote add                                  https://github.com//spbetu_os_2020_8381.git
-#git remote add                                  https://github.com//spbetu_os_2020_8381.git
+git remote add Ciratoku       https://github.com/Ciratoku/spbetu_comparch_2020_9383.git                    # Гордон
+#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
