@@ -6,7 +6,7 @@ git fetch Kirill-Mois    # Моисейченко
 git fetch Anny45         # Карпекина
 git fetch Ciratoku       # Гордон
 git fetch emptyfs        # Корсунов
-git fetch                #       
+git fetch chebesovairina # Чебесова
 git fetch                #       
 git fetch                #       
 git fetch                #       
