@@ -9,7 +9,7 @@ git fetch emptyfs        # Корсунов
 git fetch chebesovairina # Чебесова
 git fetch BasilNozdrin   # BasilNozdrin
 git fetch AlexandraLysova # Лысова
-git fetch                #       
+git fetch sttie          # Арутюнян
 git fetch                #       
 git fetch                #       
 git fetch                #       
