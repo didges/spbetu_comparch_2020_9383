@@ -11,7 +11,7 @@ git remote add BasilNozdrin                   https://github.com/BasilNozdrin/sp
 git remote add AlexandraLysova                https://github.com/AlexandraLysova/spbetu_comparch_2020_9383.git # Лысова
 git remote add sttie                          https://github.com/sttie/spbetu_comparch_2020_9383.git # Арутюнян
 git remote add didges                         https://github.com/didges/spbetu_comparch_2020_9383.git # Поплавский
-#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+git remote add Anastasialapina                https://github.com/Anastasialapina/spbetu_comparch_2020_9383.git # Лапина
 #git remote add                                https://github.com//spbetu_comparch_2020_9383.git
 #git remote add                                https://github.com//spbetu_comparch_2020_9383.git
 #git remote add                                https://github.com//spbetu_comparch_2020_9383.git

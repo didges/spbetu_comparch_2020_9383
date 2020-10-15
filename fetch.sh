@@ -11,7 +11,7 @@ git fetch BasilNozdrin   # BasilNozdrin
 git fetch AlexandraLysova # Лысова
 git fetch sttie          # Арутюнян
 git fetch didges         # Поплавский
-git fetch                #       
+git fetch Anastasialapina # Лапина
 git fetch                #       
 git fetch                #       
 git fetch                #       
