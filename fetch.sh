@@ -7,7 +7,7 @@ git fetch Anny45         # Карпекина
 git fetch Ciratoku       # Гордон
 git fetch emptyfs        # Корсунов
 git fetch chebesovairina # Чебесова
-git fetch                #       
+git fetch BasilNozdrin   # BasilNozdrin
 git fetch                #       
 git fetch                #       
 git fetch                #       
