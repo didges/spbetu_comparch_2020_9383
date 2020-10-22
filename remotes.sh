@@ -14,7 +14,7 @@ git remote add didges                         https://github.com/didges/spbetu_c
 git remote add Anastasialapina                https://github.com/Anastasialapina/spbetu_comparch_2020_9383.git # Лапина
 git remote add AnastasiaSergiencova2305       https://github.com/AnastasiaSergiencova2305/spbetu_comparch_2020_9383.git # Сергиенкова
 git remote add Machumak00                     https://github.com/Machumak00/spbetu_comparch_2020_9383.git # Чумак
-#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+git remote add RomanRybnikov                  https://github.com//spbetu_comparch_2020_9383.git # Рыбников
 #git remote add                                https://github.com//spbetu_comparch_2020_9383.git
 #git remote add                                https://github.com//spbetu_comparch_2020_9383.git
 #git remote add                                https://github.com//spbetu_comparch_2020_9383.git
