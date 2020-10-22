@@ -12,7 +12,7 @@ git remote add AlexandraLysova                https://github.com/AlexandraLysova
 git remote add sttie                          https://github.com/sttie/spbetu_comparch_2020_9383.git # Арутюнян
 git remote add didges                         https://github.com/didges/spbetu_comparch_2020_9383.git # Поплавский
 git remote add Anastasialapina                https://github.com/Anastasialapina/spbetu_comparch_2020_9383.git # Лапина
-#git remote add                                https://github.com//spbetu_comparch_2020_9383.git
+git remote add AnastasiaSergiencova2305       https://github.com/AnastasiaSergiencova2305/spbetu_comparch_2020_9383.git # Сергиенкова
 #git remote add                                https://github.com//spbetu_comparch_2020_9383.git
 #git remote add                                https://github.com//spbetu_comparch_2020_9383.git
 #git remote add                                https://github.com//spbetu_comparch_2020_9383.git
