@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 5.10                  10/22/20 01:28:0
+Microsoft (R) Macro Assembler Version 5.10                  10/22/20 15:19:2
                                                              Page     1-1
 
 
@@ -14,6 +14,12 @@
  0008  0000			resf1 dw 0
  000A  0000			resf2 dw 0
  000C  0000			resf3 dw 0
+ 000E  000F[			str db 15 dup(?)
+	   ??			
+			 ]	
+				
+ 001D  0000			temp dw 0
+ 001F  0000			temp2 dw 0
 				  .CODE
  0000				begin:
  0000  B8 ---- R		      mov ax,@DATA
@@ -26,7 +32,7 @@
 				 значений
  000B  BA 0000			      mov dx,0                        ;для �
 				�нака
- 000E  E8 00B5 R		      call input                      ;вызо
+ 000E  E8 00B8 R		      call input                      ;вызо
 				в процедуры которая считы
 				вает число
  0011  83 FA 00			      cmp dx,0                        ;срав
@@ -50,16 +56,16 @@
  0027  7E 0F			      JNG MarkF1                ;a<=b
  0029  D1 E0			      shl ax,1                  ;умножае
 				м ax на 2 сдвигом
+Microsoft (R) Macro Assembler Version 5.10                  10/22/20 15:19:2
+                                                             Page     1-2
+
+
  002B  C7 06 0008 R 000F	      mov resf1,15              ;заносим
 				 в результат 15
  0031  29 06 0008 R		      sub resf1,ax              ;resf1 = 15-2*i
  0035  EB 11 90			      jmp F2                    ;переход
 				им в вычислению второй фу�
 				�кции
-Microsoft (R) Macro Assembler Version 5.10                  10/22/20 01:28:0
-                                                             Page     1-2
-
-
  0038				  MarkF1:                       ;a<=b
  0038  C7 06 0008 R 0004	      mov resf1,4               ;заносим
 				 в результат 4
@@ -108,16 +114,16 @@
 				 в bx resf2
  0081  3D 0000			      cmp ax,0                  ;сравнив
 				аем ax с 0
+Microsoft (R) Macro Assembler Version 5.10                  10/22/20 15:19:2
+                                                             Page     1-3
+
+
  0084  7D 02			      jnl MarkF3_1              ;если ax>= 
 				0 то переходим на метку
  0086  F7 D8			      neg ax                    ;иначе д�
 				�лаем положительным
  0088				MarkF3_1:
  0088  83 FB 00			      cmp bx,0                  ;сравнив
-Microsoft (R) Macro Assembler Version 5.10                  10/22/20 01:28:0
-                                                             Page     1-3
-
-
 				аем bx с0
  008B  7D 02			      jnl MarkF3_2              ;если bx>=0
 				 то переходим на метку
@@ -150,77 +156,160 @@
  00AE  A3 000C R		      mov resf3,ax              ;заносим
 				 в resf3
  00B1				Endprog:
- 00B1  B4 4C			      mov ah,4ch
- 00B3  CD 21			      int 21h
- 00B5				INPUT PROC NEAR                 ;процеду
+ 00B1  E8 00EE R		      call output
+ 00B4  B4 4C			      mov ah,4ch
+ 00B6  CD 21			      int 21h
+ 00B8				INPUT PROC NEAR                 ;процеду
 				ра ввода числа
- 00B5  BB 000A			      mov bx,10                 ;для уве�
+ 00B8  BB 000A			      mov bx,10                 ;для уве�
 				�ичения разряда
- 00B8  51			      push cx                   ;сохраня
+ 00BB  51			      push cx                   ;сохраня
 				ем значение cx
- 00B9				Mark1:
- 00B9  B4 01			      mov ah,1h
- 00BB  CD 21			      int 21h
- 00BD  3C 2D			      cmp al,2dh                ; сравни�
+ 00BC				Mark1:
+ 00BC  B4 01			      mov ah,1h
+ 00BE  CD 21			      int 21h
+ 00C0  3C 2D			      cmp al,2dh                ; сравни�
 				�аем с кодом минуса
- 00BF  75 05			      jne Continue              ; если не
+ 00C2  75 05			      jne Continue              ; если не
 				 минус переходим на метку
- 00C1  BA 0001			      mov dx,1                  ; если dx=1
-				 то число затем будет прео
-				бразовано в отрицательно�
-				�
- 00C4  EB F3			      jmp Mark1
- 00C6				Continue:
- 00C6  2C 30			      sub al,30h                ; вычита�
-Microsoft (R) Macro Assembler Version 5.10                  10/22/20 01:28:0
+Microsoft (R) Macro Assembler Version 5.10                  10/22/20 15:19:2
                                                              Page     1-4
 
 
+ 00C4  BA 0001			      mov dx,1                  ; если dx=1
+				 то число затем будет прео
+				бразовано в отрицательно�
+				�
+ 00C7  EB F3			      jmp Mark1
+ 00C9				Continue:
+ 00C9  2C 30			      sub al,30h                ; вычита�
 				�м чтобы получить цифру а �
 				�е код символа
- 00C8  B4 00			      mov ah,0                  ; расшир�
+ 00CB  B4 00			      mov ah,0                  ; расшир�
 				�ем до слова
- 00CA  8B C8			      mov cx,ax                 ; первая 
+ 00CD  8B C8			      mov cx,ax                 ; первая 
 				цифра в cx
- 00CC				Mark2:
- 00CC  B4 01			      mov ah,1h
- 00CE  CD 21			      int 21h
- 00D0  3C 0D			      cmp al,0dh                ;сравнив
+ 00CF				Mark2:
+ 00CF  B4 01			      mov ah,1h
+ 00D1  CD 21			      int 21h
+ 00D3  3C 0D			      cmp al,0dh                ;сравнив
 				ем с кодом enter
- 00D2  74 0D			      je EndInput               ;если enter
+ 00D5  74 0D			      je EndInput               ;если enter
 				 то заканчиваем ввода чис�
 				�а
- 00D4  2C 30			      sub al,30h                ;получае
+ 00D7  2C 30			      sub al,30h                ;получае
 				м цифру
- 00D6  B4 00			      mov ah,0h                 ;расширя
+ 00D9  B4 00			      mov ah,0h                 ;расширя
 				ем до слова
- 00D8  91			      xchg ax,cx                ;в cx след
+ 00DB  91			      xchg ax,cx                ;в cx след
 				ующее число, в ax предыдуще
 				е
- 00D9  52			      push dx                   ;сохраня
+ 00DC  52			      push dx                   ;сохраня
 				ем dx в стек
- 00DA  F7 E3			      mul bx                    ;умножае
+ 00DD  F7 E3			      mul bx                    ;умножае
 				м предыдущее число на 10
- 00DC  5A			      pop dx                    ;вытаски
+ 00DF  5A			      pop dx                    ;вытаски
 				ваем dx
- 00DD  03 C8			      add cx,ax                 ;cx = ax*10 + c
+ 00E0  03 C8			      add cx,ax                 ;cx = ax*10 + c
 				x
- 00DF  EB EB			      jmp Mark2
- 00E1				EndInput:                       ;конец в�
+ 00E2  EB EB			      jmp Mark2
+ 00E4				EndInput:                       ;конец в�
 				�ода
- 00E1  B8 ---- R		      mov ax,seg a              ;кладем �
+ 00E4  B8 ---- R		      mov ax,seg a              ;кладем �
 				� ax начало сегмента с пере�
 				�енными
- 00E4  8E C0			      mov es, ax                ;перенос
+ 00E7  8E C0			      mov es, ax                ;перенос
 				им его в es
- 00E6  26: 89 0D		      mov WORD PTR es:[di],cx   ;перенос
+ 00E9  26: 89 0D		      mov WORD PTR es:[di],cx   ;перенос
 				им значение из cx в перемен
 				ную
- 00E9  59			      pop cx
- 00EA  C3			      ret
- 00EB				input endp
+ 00EC  59			      pop cx
+ 00ED  C3			      ret
+ 00EE				input endp
+				
+ 00EE				output Proc near
+ 00EE  BF 0008 R		    mov di,offset resf1
+ 00F1  B8 ---- R		    mov ax,seg resf1
+Microsoft (R) Macro Assembler Version 5.10                  10/22/20 15:19:2
+                                                             Page     1-5
+
+
+ 00F4  8E C0			    mov es,ax
+ 00F6  C7 06 001D R 0000	    mov temp,0
+ 00FC  B9 0003			    mov cx,3 ;счетчик (3 перемен�
+				�ые)
+ 00FF				MarkO1:
+ 00FF  C7 06 001F R 0000	    mov temp2,0
+ 0105  26: 8B 05		    mov ax, es:[di]
+ 0108  3D 0000			    cmp ax, 0
+ 010B  7D 11			    jnl MarkO2
+ 010D  BB 000E R		    mov bx,offset str
+ 0110  03 1E 001D R		    add bx, temp
+ 0114  26: C6 07 2D		    mov Byte ptr es:[bx],2dh
+ 0118  FF 06 001D R		    inc temp
+ 011C  F7 D8			    neg ax
+ 011E				MarkO2:
+ 011E  3D 0000			    cmp ax,0
+ 0121  74 5A			    je MarkO3
+ 0123  BB 000A			    mov bx,10
+ 0126  BA 0000			    mov dx, 0
+ 0129  F7 F3			    div bx
+ 012B  83 C2 30			    add dx,30h
+ 012E  BB 000E R		    mov bx,offset str
+ 0131  03 1E 001D R		    add bx,temp
+ 0135  50			    push ax
+ 0136  83 3E 001F R 02		    cmp temp2,2
+ 013B  74 0E			    jz markT1
+ 013D  83 3E 001F R 01		    cmp temp2,1
+ 0142  74 1D			    jz markT2
+ 0144  83 3E 001F R 00		    cmp temp2,0
+ 0149  74 24			    jz markT3
+				
+ 014B				    markT1:
+ 014B  26: 8A 47 FF		      mov al,es:[bx-1]
+ 014F  26: 88 07		      mov Byte ptr es:[bx],al
+ 0152  26: 8A 47 FE		      mov al,es:[bx-2]
+ 0156  26: 88 47 FF		      mov Byte ptr es:[bx-1],al
+ 015A  26: 88 57 FE		      mov Byte ptr es:[bx-2],dl
+ 015E  EB 12 90			      jmp Markt4
+ 0161				    markT2:
+ 0161  26: 8A 47 FF		      mov al,es:[bx-1]
+ 0165  26: 88 07		      mov Byte ptr es:[bx],al
+ 0168  26: 88 57 FF		      mov Byte ptr es:[bx-1],dl
+ 016C  EB 04 90			      jmp markt4
+ 016F				    MarkT3:
+ 016F  26: 88 17		      mov Byte ptr es:[bx],dl
+ 0172				MarkT4:
+ 0172  58			    pop ax
+ 0173  FF 06 001F R		    inc temp2
+ 0177  FF 06 001D R		    inc temp
+ 017B  EB A1			    jmp MarkO2
+ 017D				MarkO3:
+ 017D  BB 000E R		    mov bx,offset str
+ 0180  03 1E 001D R		    add bx,temp
+ 0184  26: C6 07 20		    mov Byte ptr es:[bx],20h;пробел
+Microsoft (R) Macro Assembler Version 5.10                  10/22/20 15:19:2
+                                                             Page     1-6
+
+
+ 0188  FF 06 001D R		    inc temp
+ 018C  83 C7 02			    add di,2
+ 018F  E2 03			    loop MarkO_Temp1
+ 0191  EB 04 90			    jmp Next
+ 0194				MarkO_Temp1:
+ 0194  E9 00FF R		    jmp MarkO1
+ 0197				Next:
+ 0197  BB 000E R		    mov bx ,offset str
+ 019A  03 1E 001D R		    add bx,temp
+ 019E  26: C6 07 24		    mov Byte ptr es:[bx],24h;код долла�
+				�а
+ 01A2  BA 000E R		    mov dx,offset str
+ 01A5  B4 09			    mov ah,9h
+ 01A7  CD 21			    int 21h
+ 01A9  C3			    ret
+ 01AA				output endp
 				    end
-Microsoft (R) Macro Assembler Version 5.10                  10/22/20 01:28:0
+Microsoft (R) Macro Assembler Version 5.10                  10/22/20 15:19:2
                                                              Symbols-1
 
 
@@ -229,9 +318,9 @@ Segments and Groups:
                 N a m e         	Length	 Align	Combine Class
 
 DGROUP . . . . . . . . . . . . .  	GROUP
-  _DATA  . . . . . . . . . . . .  	000E	WORD	PUBLIC	'DATA'
+  _DATA  . . . . . . . . . . . .  	0021	WORD	PUBLIC	'DATA'
   STACK  . . . . . . . . . . . .  	0100	PARA	STACK	'STACK'
-_TEXT  . . . . . . . . . . . . .  	00EB	WORD	PUBLIC	'CODE'
+_TEXT  . . . . . . . . . . . . .  	01AA	WORD	PUBLIC	'CODE'
 
 Symbols:            
 
@@ -242,34 +331,54 @@ A  . . . . . . . . . . . . . . .  	L WORD	0000	_DATA
 B  . . . . . . . . . . . . . . .  	L WORD	0002	_DATA
 BEGIN  . . . . . . . . . . . . .  	L NEAR	0000	_TEXT
 
-CONTINUE . . . . . . . . . . . .  	L NEAR	00C6	_TEXT
+CONTINUE . . . . . . . . . . . .  	L NEAR	00C9	_TEXT
 CONTINUEINPUTNUMBERS . . . . . .  	L NEAR	0019	_TEXT
 
-ENDINPUT . . . . . . . . . . . .  	L NEAR	00E1	_TEXT
+ENDINPUT . . . . . . . . . . . .  	L NEAR	00E4	_TEXT
 ENDPROG  . . . . . . . . . . . .  	L NEAR	00B1	_TEXT
 
 F2 . . . . . . . . . . . . . . .  	L NEAR	0048	_TEXT
 F3 . . . . . . . . . . . . . . .  	L NEAR	007A	_TEXT
 
 I  . . . . . . . . . . . . . . .  	L WORD	0004	_DATA
-INPUT  . . . . . . . . . . . . .  	N PROC	00B5	_TEXT	Length = 0036
+INPUT  . . . . . . . . . . . . .  	N PROC	00B8	_TEXT	Length = 0036
 INPUTNUMBERS . . . . . . . . . .  	L NEAR	000B	_TEXT
 
 K  . . . . . . . . . . . . . . .  	L WORD	0006	_DATA
 
-MARK1  . . . . . . . . . . . . .  	L NEAR	00B9	_TEXT
-MARK2  . . . . . . . . . . . . .  	L NEAR	00CC	_TEXT
+MARK1  . . . . . . . . . . . . .  	L NEAR	00BC	_TEXT
+MARK2  . . . . . . . . . . . . .  	L NEAR	00CF	_TEXT
 MARKF1 . . . . . . . . . . . . .  	L NEAR	0038	_TEXT
 MARKF2 . . . . . . . . . . . . .  	L NEAR	006A	_TEXT
 MARKF3_1 . . . . . . . . . . . .  	L NEAR	0088	_TEXT
 MARKF3_2 . . . . . . . . . . . .  	L NEAR	008F	_TEXT
 MARKF3_3 . . . . . . . . . . . .  	L NEAR	00AC	_TEXT
+MARKO1 . . . . . . . . . . . . .  	L NEAR	00FF	_TEXT
+MARKO2 . . . . . . . . . . . . .  	L NEAR	011E	_TEXT
+MARKO3 . . . . . . . . . . . . .  	L NEAR	017D	_TEXT
+MARKO_TEMP1  . . . . . . . . . .  	L NEAR	0194	_TEXT
+MARKT1 . . . . . . . . . . . . .  	L NEAR	014B	_TEXT
+MARKT2 . . . . . . . . . . . . .  	L NEAR	0161	_TEXT
+MARKT3 . . . . . . . . . . . . .  	L NEAR	016F	_TEXT
+MARKT4 . . . . . . . . . . . . .  	L NEAR	0172	_TEXT
+
+NEXT . . . . . . . . . . . . . .  	L NEAR	0197	_TEXT
+
+OUTPUT . . . . . . . . . . . . .  	N PROC	00EE	_TEXT	Length = 00BC
+
+Microsoft (R) Macro Assembler Version 5.10                  10/22/20 15:19:2
+                                                             Symbols-2
+
 
 RESF1  . . . . . . . . . . . . .  	L WORD	0008	_DATA
 RESF2  . . . . . . . . . . . . .  	L WORD	000A	_DATA
 RESF3  . . . . . . . . . . . . .  	L WORD	000C	_DATA
 
 SET_6  . . . . . . . . . . . . .  	L NEAR	00A3	_TEXT
+STR  . . . . . . . . . . . . . .  	L BYTE	000E	_DATA	Length = 000F
+
+TEMP . . . . . . . . . . . . . .  	L WORD	001D	_DATA
+TEMP2  . . . . . . . . . . . . .  	L WORD	001F	_DATA
 
 @CODE  . . . . . . . . . . . . .  	TEXT  _TEXT		
 @CODESIZE  . . . . . . . . . . .  	TEXT  0		
@@ -277,17 +386,13 @@ SET_6  . . . . . . . . . . . . .  	L NEAR	00A3	_TEXT
 @DATASIZE  . . . . . . . . . . .  	TEXT  0		
 @FILENAME  . . . . . . . . . . .  	TEXT  l3		
 @VERSION . . . . . . . . . . . .  	TEXT  510		
-Microsoft (R) Macro Assembler Version 5.10                  10/22/20 01:28:0
-                                                             Symbols-2
 
 
+    197 Source  Lines
+    197 Total   Lines
+     54 Symbols
 
-
-    121 Source  Lines
-    121 Total   Lines
-     41 Symbols
-
-  47870 + 449148 Bytes symbol space free
+  47794 + 447177 Bytes symbol space free
 
       0 Warning Errors
       0 Severe  Errors

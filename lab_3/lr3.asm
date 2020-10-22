@@ -10,6 +10,9 @@ k dw 0
 resf1 dw 0
 resf2 dw 0
 resf3 dw 0
+str db 15 dup(?)
+temp dw 0
+temp2 dw 0
   .CODE
 begin:
       mov ax,@DATA
@@ -82,6 +85,7 @@ MarkF3_3:                       ;если k<0
       add ax,bx                 ;складываем ax и bx
       mov resf3,ax              ;заносим в resf3
 Endprog:
+      call output
       mov ah,4ch
       int 21h
 INPUT PROC NEAR                 ;процедура ввода числа
@@ -118,5 +122,77 @@ EndInput:                       ;конец ввода
       pop cx
       ret
 input endp
+
+output Proc near
+    mov di,offset resf1
+    mov ax,seg resf1
+    mov es,ax
+    mov temp,0
+    mov cx,3 ;счетчик (3 переменные)
+MarkO1:
+    mov temp2,0
+    mov ax, es:[di]
+    cmp ax, 0
+    jnl MarkO2
+    mov bx,offset str
+    add bx, temp
+    mov Byte ptr es:[bx],2dh
+    inc temp
+    neg ax
+MarkO2:
+    cmp ax,0
+    je MarkO3
+    mov bx,10
+    mov dx, 0
+    div bx
+    add dx,30h
+    mov bx,offset str
+    add bx,temp
+    push ax
+    cmp temp2,2
+    jz markT1
+    cmp temp2,1
+    jz markT2
+    cmp temp2,0
+    jz markT3
+
+    markT1:
+      mov al,es:[bx-1]
+      mov Byte ptr es:[bx],al
+      mov al,es:[bx-2]
+      mov Byte ptr es:[bx-1],al
+      mov Byte ptr es:[bx-2],dl
+      jmp Markt4
+    markT2:
+      mov al,es:[bx-1]
+      mov Byte ptr es:[bx],al
+      mov Byte ptr es:[bx-1],dl
+      jmp markt4
+    MarkT3:
+      mov Byte ptr es:[bx],dl
+MarkT4:
+    pop ax
+    inc temp2
+    inc temp
+    jmp MarkO2
+MarkO3:
+    mov bx,offset str
+    add bx,temp
+    mov Byte ptr es:[bx],20h;пробел
+    inc temp
+    add di,2
+    loop MarkO_Temp1
+    jmp Next
+MarkO_Temp1:
+    jmp MarkO1
+Next:
+    mov bx ,offset str
+    add bx,temp
+    mov Byte ptr es:[bx],24h;код доллара
+    mov dx,offset str
+    mov ah,9h
+    int 21h
+    ret
+output endp
     end
 end begin
