@@ -13,6 +13,6 @@ git fetch sttie          # Арутюнян
 git fetch didges         # Поплавский
 git fetch Anastasialapina # Лапина
 git fetch AnastasiaSergiencova2305 # Сергиенкова
-#git fetch                #       
+git fetch Machumak00     # Чумак
 #git fetch                #       
 #git fetch                #       
