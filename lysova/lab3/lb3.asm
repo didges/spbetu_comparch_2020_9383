@@ -3,10 +3,10 @@ AStack SEGMENT STACK
 AStack ENDS
 
 DATA SEGMENT
-a	DW	2
-b	DW	1
+a	DW	1
+b	DW	2
 i	DW	3
-k	DW	-3
+k	DW	4
 i1	DW	?
 i2	DW	?
 res	DW	?
@@ -32,7 +32,7 @@ f1:
 	sub ax, 10	;ax = ax - 10
 	mov i1, ax
 	
-	jmp f2
+	jmp f2_1
 f1_1:
 	mov ax, i
 	shl ax, 1
@@ -42,28 +42,14 @@ f1_1:
 	mov i1, ax
 
 f2:
-	mov ax, a
-	cmp ax, b
-	jg f2_1		;if a>b
-			;a<=b
-	mov ax, i
-	shl ax, 1	;ax = 2*ax
-	mov bx, ax	;bx = 2*ax
-	shl ax, 1	;ax = 4*ax
-	add ax, bx	;ax = 6*ax
-	sub ax, 6	;ax = ax - 6
-	neg ax		;ax = -ax
-	
+	add ax, 23	;ax = ax + 23
+
 	mov i2, ax
 	jmp f3
 
 f2_1:
-	mov ax, i
-	shl ax, 1	;ax = 2*ax
-	mov bx, ax	;bx = 2*ax
-	shl ax, 1	;ax = 4*ax
 	neg ax		;ax = -ax
-	add ax, 20	;ax = ax + 20
+	sub ax, 4	;ax = ax - 4
 
 	mov i2, ax
 	
@@ -92,8 +78,6 @@ f3_cmp_7:
 	cmp ax, 7	;if ax < 7
 	jl f3_7		;res = 7
 
-	jmp f3_res
-
 f3_res:
 	mov res, ax	;else res = ax
 
@@ -105,8 +89,7 @@ f_abs_1:
 	jmp f3_res
 
 f3_7:
-	mov res, 7	;res = 7
-	jmp f_end	
+	mov res, 7	;res = 7	
 
 f_end:
 	mov ah, 4ch
