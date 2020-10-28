@@ -1,0 +1,171 @@
+Microsoft (R) Macro Assembler Version 5.10                  10/26/20 21:16:2
+                                                             Page     1-1
+
+
+ 0000				DATA SEGMENT
+ 0000  0000			res     DW      ?
+ 0002  0001			a       DW      1
+ 0004  0002			b       DW      2
+ 0006  0004			i       DW      4
+ 0008  FFFF			k       DW      -1
+ 000A  0000			i1      DW      ?
+ 000C  0000			i2      DW      ?
+ 000E				DATA ENDS
+				
+ 0000				AStack SEGMENT STACK
+ 0000  0010[			        DW 16 DUP(?)
+	   ????			
+			 ]	
+				
+ 0020				AStack ENDS
+				
+ 0000				CODE SEGMENT
+				        ASSUME CS:CODE, SS:AStack, DS:DATA
+ 0000				Main PROC FAR
+ 0000  B8 ---- R		        mov ax, DATA
+ 0003  8E D8			        mov ds, ax
+ 0005				f1:
+ 0005  A1 0002 R		        mov ax, a
+ 0008  3B 06 0004 R		        cmp ax, b ;Сравнение а и б
+ 000C  7E 10			        jle f1_second ;a <= b
+ 000E  A1 0006 R		        mov ax, i ;
+ 0011  D1 E0			        shl ax, 1 ;
+ 0013  F7 D8			        neg ax ;
+ 0015  05 000F			        add ax, 15 ; Помещаем в ax 15-
+				2i
+ 0018  A3 000A R		        mov i1, ax ; Помещаем в i1 з�
+				�ачение из ax
+				
+ 001B  EB 26 90			        jmp f2
+ 001E				f1_second: ;jump сюда если а <= b
+ 001E  A1 0006 R		        mov ax, i ;
+ 0021  D1 E0			        shl ax, 1 ;
+ 0023  03 06 0006 R		        add ax, i ;
+ 0027  05 0004			        add ax, 4 ;Помещаем в ax 3i+4
+ 002A  A3 000A R		        mov i1, ax ;Помещаем в i1 зн
+				ачение из ax
+				
+ 002D				f2_second:;если a <= b
+ 002D  A1 0006 R		        mov ax, i;
+ 0030  D1 E0			        shl ax, 1;
+ 0032  03 06 0006 R		        add ax, i;
+ 0036  D1 E0			        shl ax, 1;
+ 0038  F7 D8			        neg ax;
+ 003A  05 0006			        add ax, 6; Помещаем в ax -6i+6
+ 003D  A3 000C R		        mov i2, ax ;Помещаем в i2 зн
+				ачение из ax
+				
+ 0040  EB 10 90			        jmp fk_4
+Microsoft (R) Macro Assembler Version 5.10                  10/26/20 21:16:2
+                                                             Page     1-2
+
+
+ 0043				f2:; jump сюда если a > b
+ 0043  A1 0006 R		        mov ax, i;
+ 0046  D1 E0			        shl ax, 1;
+ 0048  D1 E0			        shl ax, 1;
+ 004A  F7 D8			        neg ax;
+ 004C  05 0014			        add ax, 20;Помещаем в ax 20-4i
+ 004F  A3 000C R		        mov i2, ax ;Помещаем в i2 зн
+				ачение из ax
+ 0052				fk_4:
+ 0052  A1 0008 R		        mov ax, k
+ 0055  3D 0000			        cmp ax, 0
+ 0058  7D 14			        jge fk4_second ;k >= 0
+ 005A  A1 000A R		        mov ax, i1;
+ 005D  2B 06 000C R		        sub ax, i2;Помещаем в ax i1-i2
+ 0061  3D 0000			        cmp ax, 0;Сравниваем i1-i2 и
+				 0
+ 0064  7C 03			        jl f_neg ;i1-i2 < 0
+ 0066  EB 1F 90			        jmp fk_4_first_final
+				
+ 0069				f_neg:;если i1-i2 < 0 и нужен мод�
+				�ль
+ 0069  F7 D8			        neg ax;Переводим в отриц
+				ательное(нужен модуль)
+ 006B  EB 1A 90			        jmp fk_4_first_final
+				
+ 006E				fk4_second:;если k>=0
+ 006E  A1 000C R		        mov ax, i2;
+ 0071  F7 D8			        neg ax;Помещаем в ax -i2
+ 0073  3D FFFA			        cmp ax, -6;Сравниваем ax и -
+				6
+ 0076  7C 06			        jl fmax ; -i2 < -6
+ 0078  A3 0000 R		        mov res, ax ;Помещаем ax в р�
+				�зультат
+ 007B  EB 1E 90			        jmp f_end
+ 007E				fmax:;Если -i2 < -6
+ 007E  C7 06 0000 R FFFA	        mov res, -6 ;Помещаем -6 в р�
+				�зультат
+ 0084  EB 15 90			        jmp f_end
+				
+ 0087				fk_4_first_final:
+ 0087  3D 0002			        cmp ax, 2;Сравниваем ax и 2
+ 008A  7F 06			        jg fmin ;|i1-i2| > 2
+ 008C  A3 0000 R		        mov res, ax; Помещаем в res ax
+ 008F  EB 0A 90			        jmp f_end
+ 0092				fmin:; если |i1-i2| > 2
+ 0092  C7 06 0000 R 0002	        mov res, 2;Помещаем 2 в рез
+				ультат
+ 0098  EB 01 90			        jmp f_end
+ 009B				f_end:
+ 009B  B4 4C			        mov ah, 4ch
+ 009D  CD 21			        int 21h
+ 009F				Main	ENDP
+ 009F				CODE	ENDS
+				        END Main
+Microsoft (R) Macro Assembler Version 5.10                  10/26/20 21:16:2
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+ASTACK . . . . . . . . . . . . .  	0020	PARA	STACK	
+CODE . . . . . . . . . . . . . .  	009F	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	000E	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+A  . . . . . . . . . . . . . . .  	L WORD	0002	DATA
+
+B  . . . . . . . . . . . . . . .  	L WORD	0004	DATA
+
+F1 . . . . . . . . . . . . . . .  	L NEAR	0005	CODE
+F1_SECOND  . . . . . . . . . . .  	L NEAR	001E	CODE
+F2 . . . . . . . . . . . . . . .  	L NEAR	0043	CODE
+F2_SECOND  . . . . . . . . . . .  	L NEAR	002D	CODE
+FK4_SECOND . . . . . . . . . . .  	L NEAR	006E	CODE
+FK_4 . . . . . . . . . . . . . .  	L NEAR	0052	CODE
+FK_4_FIRST_FINAL . . . . . . . .  	L NEAR	0087	CODE
+FMAX . . . . . . . . . . . . . .  	L NEAR	007E	CODE
+FMIN . . . . . . . . . . . . . .  	L NEAR	0092	CODE
+F_END  . . . . . . . . . . . . .  	L NEAR	009B	CODE
+F_NEG  . . . . . . . . . . . . .  	L NEAR	0069	CODE
+
+I  . . . . . . . . . . . . . . .  	L WORD	0006	DATA
+I1 . . . . . . . . . . . . . . .  	L WORD	000A	DATA
+I2 . . . . . . . . . . . . . . .  	L WORD	000C	DATA
+
+K  . . . . . . . . . . . . . . .  	L WORD	0008	DATA
+
+MAIN . . . . . . . . . . . . . .  	F PROC	0000	CODE	Length = 009F
+
+RES  . . . . . . . . . . . . . .  	L WORD	0000	DATA
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  lab3		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     93 Source  Lines
+     93 Total   Lines
+     27 Symbols
+
+  47974 + 457236 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors
