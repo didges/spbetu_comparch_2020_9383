@@ -30,19 +30,6 @@ f1:
     cmp ax, bx
 
     jg f1_great ; if ax > bx
-    jmp f1_less
-
-; 15 - 2*i
-f1_great:
-    ; 2*i
-    mov dx, i
-    shl dx, 1
-    ; -15
-    sub dx, 15
-    neg dx
-
-    mov i1, dx
-    jmp f2
 
 ; 3i + 4
 f1_less:
@@ -56,6 +43,18 @@ f1_less:
     add dx, 4
 
     mov i1, dx
+    jmp f2
+
+; 15 - 2*i
+f1_great:
+    ; 2*i
+    mov dx, i
+    shl dx, 1
+    ; -15
+    sub dx, 15
+    neg dx
+
+    mov i1, dx
 
 
 f2:
@@ -64,20 +63,6 @@ f2:
     cmp ax, bx
 
     jg f2_great
-    jmp f2_less
-
-; -(4i + 3)
-f2_great:
-    mov dx, i
-    ; *4
-    mov cl, 2
-    shl dx, cl
-    ; +3
-    add dx, 3
-    neg dx
-
-    mov i2, dx
-    jmp res
 
 ; 6i - 10
 f2_less:
@@ -91,6 +76,19 @@ f2_less:
     add dx, i
     ; -10
     sub dx, 10
+
+    mov i2, dx
+    jmp res
+
+; -(4i + 3)
+f2_great:
+    mov dx, i
+    ; *4
+    mov cl, 2
+    shl dx, cl
+    ; +3
+    add dx, 3
+    neg dx
 
     mov i2, dx
 
@@ -112,19 +110,17 @@ min:
 res2:
     cmp k, 0
     jz res_zero
-    jmp res_nonzero
-
-
-; k = 0
-res_zero:
-    ; минимальный в ax
-    mov result, ax
-    jmp end_prog
 
 ; k != 0
 res_nonzero:
     ; максимальный в bx
     mov result, bx
+    jmp end_prog
+
+; k = 0
+res_zero:
+    ; минимальный в ax
+    mov result, ax
     
 end_prog:
     mov ah, 4ch
