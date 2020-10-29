@@ -59,7 +59,8 @@ f2_1:
 	jmp f3
 
 f3:
-	cmp K, 0
+	mov ax, 0
+	cmp K, ax
 	jg f3_1
 	mov ax, I1
 	mov bx, I2
