@@ -73,17 +73,15 @@ f3  :
     mov ax, I1  ; ax = I1
     add ax, I2  ; ax = I1 + I2
     cmp ax, 0   ; if (ax >= 0)
-    jge abs1    ; skip
+    jge fin    ; skip
     neg ax      ; else ax = -ax
-abs1:
-    ; ax = |I1 + I2|
-    mov RES, ax
+    jmp fin
 min :
     mov ax, I1
     cmp ax, I2
     jle fin
     mov ax, I2
-fin   :
+fin :
     mov RES, ax
     mov  ah, 4ch
     int  21h
