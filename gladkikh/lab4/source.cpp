@@ -9,8 +9,7 @@ using namespace std;
 
 char* strFunc(char* inp)
 {
-    int N = STR_SIZE + 1;
-    char* out = new char[STR_SIZE + 1];
+    char* out = new char[STR_SIZE];
     asm(
         "mov r8, %0\n" //записываем в регистр адрес начала выходной строки
         "mov rdi, %1\n" //записываем в регистр адрес начала входной строки
