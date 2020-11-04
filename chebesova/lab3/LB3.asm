@@ -1,8 +1,8 @@
 DATA SEGMENT
-a       DW      2
-b       DW      1
-i       DW      4
-k       DW      -1
+a       DW      1
+b       DW      0
+i       DW      2
+k       DW      0
 i1      DW      ?
 i2      DW      ?
 res     DW		?
@@ -20,7 +20,7 @@ Main PROC FAR
 	
 f1:
     mov ax, a
-    cmp ax, b ;—равнение а и б
+    cmp ax, b ;—равнение a и b
     jle f1_second ;a <= b
 	
     mov ax, i ;
@@ -70,7 +70,7 @@ f2:                ;jump сюда если a > b
 f3:
     mov ax, k
     cmp ax, 0
-	je f3_second ;k = 0
+	je f3_first ;k = 0
 	
 	mov ax, i1 ; 
 	mov bx, i2 ;
@@ -85,11 +85,11 @@ min_i2:
 	jmp f_end
 
 
-f3_second:
+f3_first:
 	mov ax, i1 ;
 	add ax, i2 ;
 	cmp ax, 0 ;
-	jle abs_neg ;   ;i1+i2 < 0
+	jle abs_neg ;   ;i1+i2 <= 0
 	mov res, ax ;
 	
 	jmp f_end
@@ -97,9 +97,7 @@ f3_second:
 abs_neg:
 	neg ax ;
 	mov res, ax ;
-	
-	jmp f_end 
-	
+
 
 f_end:
         mov ah, 4ch
