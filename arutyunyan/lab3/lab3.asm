@@ -24,15 +24,14 @@ Main PROC FAR
     mov ax, DATA
     mov ds, ax
 
-f1:
     mov ax, a
     mov bx, b
     cmp ax, bx
 
-    jg f1_great ; if ax > bx
+    jg great_branch ; if ax > bx
 
-; 3i + 4
-f1_less:
+less_branch:
+    ; f1 (3i + 4) =================
     ; 3*i
     mov dx, i
     ; *2
@@ -43,10 +42,22 @@ f1_less:
     add dx, 4
 
     mov i1, dx
-    jmp f2
+    ; ====================
 
-; 15 - 2*i
-f1_great:
+    ; f2 (6i - 10) =================
+    ; dx = 3i + 4
+    shl dx, 1
+    ; dx = 6i + 8
+    add dx, -18
+
+    mov i2, dx
+    ; ====================
+
+    jmp res
+
+
+great_branch:
+    ; f1 (15 - 2i) ===================
     ; 2*i
     mov dx, i
     shl dx, 1
@@ -55,43 +66,18 @@ f1_great:
     neg dx
 
     mov i1, dx
+    ; ================================
 
-
-f2:
-    mov ax, a
-    mov bx, b
-    cmp ax, bx
-
-    jg f2_great
-
-; 6i - 10
-f2_less:
-    mov dx, i
-    ; *4
-    mov cl, 2
-    shl dx, cl
-    ; +i
-    add dx, i
-    ; +i
-    add dx, i
-    ; -10
-    sub dx, 10
-
-    mov i2, dx
-    jmp res
-
-; -(4i + 3)
-f2_great:
-    mov dx, i
-    ; *4
-    mov cl, 2
-    shl dx, cl
-    ; +3
-    add dx, 3
+    ; f2 (-(4i + 3)) =================
+    neg dx
+    ; dx = -15 + 2i
+    shl dx, 1
+    ; dx = -30 + 4i
+    add dx, 33
     neg dx
 
     mov i2, dx
-
+    ; ================================
 
 ; f3
 res:
