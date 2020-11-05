@@ -12,6 +12,7 @@ k DW -1
 
 i1 DW ?
 i2 DW ?
+i2abs DW ?
 res DW ?
 
 DATA ENDS
@@ -63,6 +64,12 @@ f22:
      jmp f3_cmp
 
 f3_cmp:
+     mov ax, i2
+     cmp ax, 0
+     jg i2_abs
+     neg ax
+i2_abs:
+     mov i2abs, ax
      cmp k, 0
      jge f32; if k >= 0 -> f32
 
@@ -72,21 +79,13 @@ f31: ;if k<0
      jg f31_abs1 ; if i1 > 0
      neg ax ; |i1|
 f31_abs1:
-     mov bx, i2
-     cmp bx, 0
-     jg f31_abs2 ; if i2 > 0
-     neg bx ;|i2|
-f31_abs2:
+     mov bx, i2abs
      sub ax, bx; |i1| - |i2|
      mov ax, res
 	 jmp main_end
 
 f32:
-     mov ax, i2
-     cmp ax, 0
-     jg f32_abs2 ; if i2 > 0
-     neg ax ; |i2|
-f32_abs2:
+     mov ax, i2abs
      sub ax, 3; i2 - 3
      cmp ax, 4
      jg f32_max_right; if |i2| - 3 > 4
