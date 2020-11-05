@@ -1,6 +1,6 @@
 ; Задание 13: (2, 8, 3)
 ; f1 (a, b)         = (a > b)?      -(4*i+3)    : 6*i-10
-; f2 (a, b)         = (a > b)?      -(6*i+8)    : 9-3*(i-1)
+; f2 (a, b)         = (a > b)?      -(6*i+8)    : 9-3*(i-1) = -3*i+12
 ; f3 (i1, i2, k)    = (k == 0)?     |i1+i2|     : min(i1, i2)
 
 AStack  SEGMENT STACK
@@ -27,7 +27,7 @@ Main    PROC FAR
 f1  :
     mov ax, A
     cmp ax, B    ; if
-    jle f1_     ; (a <= b): jmp f1_
+    jle f2_     ; (a <= b): jmp f1_
     mov ax, I   ; ax = i
     shl ax, 1   ; ax *= 2       ax = 2*i
     shl ax, 1   ; ax *= 2       ax = 4*i
@@ -36,36 +36,26 @@ f1  :
     mov I1, ax  ; I1 = ax
     jmp f2
 f1_ :           ; else
-    mov ax, I   ; ax = i
-    shl ax, 1   ; ax *= 2       ax = 2*i
-    mov bx, ax  ; bx = ax       bx = 2*i
-    shl ax, 1   ; ax *= 2       ax = 4*i
-    add ax, bx  ; ax += bx      ax = 6*i
-    sub ax, 10  ; ax -= 10      ax = 6*i-10
+    sub ax, 7   ; ax -= 7       ax = -3*i+5
+    shl ax, 1   ; ax *= 2       ax = -6*i+10
+    neg ax      ; ax = -ax      ax = 6*i-10
     mov I1, ax  ; I1 = ax
-    jmp f2
-; f2 (a, b)         = (a > b)?      -(6*i+8)    : 9-3*(i-1)
+    jmp f3
+; f2 (a, b)         = (a > b)?      -(6*i+8)    : -3*i+12
 f2  :
-    mov ax, A
-    cmp ax, B    ; if
-    jle f2_     ; (a <= b): jmp f1_
-    mov ax, I   ; ax = i
-    shl ax, 1   ; ax *= 2       ax = 2*i
-    mov bx, ax  ; bx = ax       bx = 2*i
-    shl ax, 1   ; ax *= 2       ax = 4*i
-    add ax, bx  ; ax += bx      ax = 6*i
-    add ax, 8   ; ax += 8       ax = 6*i+8
-    neg ax      ; ax = -ax      ax = -(6*i+8)
+    add ax, I   ; ax += i       ax = -3*i-3
+    sub ax, 1   ; ax -= 1       ax = -3*i-4
+    shl ax, 1   ; ax *= 2       ax = -6*i-8
     mov I2, ax  ; I2 = ax
     jmp f3
 f2_ :           ; else
     mov ax, I   ; ax = i
-    sub ax, 1   ; ax -= 1       ax = i-1
-    mov bx, ax  ; bx = ax       bx = i-1
-    shl ax, 1   ; ax *= 2       ax = 2*(i-1)
-    add ax, bx  ; ax += bx      ax = 3*(i-1)
+    shl ax, 1   ; ax *= 2       ax = 2*i
+    add ax, I   ; ax += i       ax = 3*i
+    neg ax      ; ax = -ax      ax = -3*i
+    add ax, 12  ; ax += 12      ax = -3i+12
     mov I2, ax  ; I2 = ax
-    jmp f3
+    jmp f1_
 ; f3 (i1, i2, k)    = (k == 0)?     |i1+i2|     : min(i1, i2)
 f3  :
     cmp K, 0
@@ -73,7 +63,7 @@ f3  :
     mov ax, I1  ; ax = I1
     add ax, I2  ; ax = I1 + I2
     cmp ax, 0   ; if (ax >= 0)
-    jge fin    ; skip
+    jge fin     ; skip
     neg ax      ; else ax = -ax
     jmp fin
 min :
