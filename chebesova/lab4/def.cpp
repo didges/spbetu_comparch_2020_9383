@@ -41,7 +41,14 @@ char* change(char* str_in)
         "jl writeChar2\n"
         "cmp ax, 0xD0AF\n" //Я
         "jg writeChar2\n"
+        "cmp ax, 0xD09F\n" //П
+        "jg changeRus2\n"
         "add ax, 0x0020\n"
+        "jmp writeChar2\n"
+
+
+        "changeRus2:\n"
+        "add ax, 0x00E0\n"
         "jmp writeChar2\n"
 
 
