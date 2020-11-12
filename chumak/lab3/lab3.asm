@@ -18,71 +18,58 @@ CODE SEGMENT
 Main PROC FAR
 	mov ax, DATA
 	mov ds, ax
-f1_1:
+i2_2:
 	mov ax, a
 	cmp ax, b
-	jg f1_2	;если a > b, то переходим к f1_2
+	jg i2_1	;если a > b, то переходим к i2_1
 			;иначе a <= b, выполняем действия дальше
-	mov ax, i
-	shl ax, 1	;ax = 2*i
-	mov bx, ax	;bx = 2*i
-	shl ax, 1	;ax = 4*i
-	add ax, bx	;ax = 6*i
-	sub ax, 6	;ax = 6*i-6
-	neg ax		;ax = -(6*i-6)
-	mov i1, ax
-	jmp f2_1
-f1_2:
-	mov ax, i
-	shl ax, 1	;ax = 2*i
-	shl ax, 1	;ax = 4*i
-	neg ax		;ax = -4*i
-	add ax, 20	;ax = -4*i+20, что идентично 20-4*i
-	mov i1, ax
-f2_1:
-	mov ax, a
-	cmp ax, b
-	jg f2_2	;если a > b, то переходим к f2_2
-			;иначе a <= b, выполняем действия дальше
-	mov ax, i
-	mov bx, ax
+	mov ax, i	;ax = i
+	mov bx, ax	;bx = i, ax = i
 	shl ax, 1	;ax = 2*i
 	add ax, bx	;ax = 3*i
-	neg ax		;ax = -(3*i)
-	add ax, 2	;ax = -(3*i)+2, что идентично 2-3*i
+	neg ax		;ax = (-3)*i
+	add ax, 2	;ax = (-3)*i+2, что идентично ax = 2-3*i
 	mov i2, ax
-	jmp f3
-f2_2:
+i1_2:
+	shl ax, 1	;ax = 4-6*i
+	add ax, 2	;ax = 6-6*i, что идентично ax = -(6*i-6)
+	mov i1, ax
+	jmp i3
+i2_1:
 	mov ax, i
 	shl ax, 1	;ax = 2*i
 	sub ax, 2	;ax = 2*i-2
 	mov i2, ax
-f3:
+i1_1:
+	shl ax, 1	;ax = 4*i-4
+	neg ax		;ax = 4-4*i
+	add ax, 16	;ax = 20-4*i
+	mov i1, ax
+i3:
 	mov ax, k
 	cmp k, 0
-	jl f3_1	;если k < 0, то переходим к f3_1
+	jl i3_1	;если k < 0, то переходим к i3_1
 			;иначе k >= 0, выполняем действия дальше
 	mov ax, i2	;ax = i2
 	neg ax		;ax = -i2
 	cmp ax, -6
-	jg f3_res	;если ax > -6, то переходим к выводу -i2
+	jg i3_res	;если ax > -6, то переходим к выводу -i2
 	mov res, -6	;иначе res = -6
 	jmp f_end
-f3_1:
+i3_1:
 	mov ax, i1	;ax = i1
 	sub ax, i2	;ax = i1-i2
 	cmp ax, 0	
-	jg f3_cmp_2	;если ax > 0, то переходим к сравнению с 2
-			;иначе идём берём модуль
+	jg i3_cmp_2	;если ax > 0, то переходим к сравнению с 2
+			;иначе берём модуль
 	neg ax		;ax = -i1+i2
-f3_cmp_2:
+i3_cmp_2:
 	cmp ax, 2
-	jl f3_res	;если ax < 2, то переходим к выводу ax
+	jl i3_res	;если ax < 2, то переходим к выводу ax
 	mov res, 2
 	jmp f_end	
-f3_res:
+i3_res:
 	mov res, ax
-	jmp f_end
 f_end:
 	mov ah, 4ch
 	int 21h
