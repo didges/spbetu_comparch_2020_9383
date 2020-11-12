@@ -21,7 +21,7 @@ int main(){
 	char* source = new char[N];
 	std::cout << "Input string:\n";
 	std::cin.getline(source, N);
-	char* target = new char[4*N];// = func(source);
+	char* target = new char[4*N];
 
 	asm(
 		".intel_syntax noprefix\n\t"
@@ -33,7 +33,7 @@ int main(){
 		" mov ah, [rdi]\n\t"
 		" inc rdi\n\t"
 		" mov bh, 0x8\n\t"
-		" mov ecx, 4\n\t"
+		" mov rcx, 4\n\t"
 		" cmp ah, 0\n\t"
 		" je end\n\t"
 
@@ -45,6 +45,10 @@ int main(){
 		" jl check\n\t"
 		" cmp ah, 'F'\n\t"
 		" jle letter\n\t"
+		" cmp ah, 'a'\n\t"
+		" jl check\n\t"
+		" cmp ah, 'f'\n\t"
+		" jle little_letter\n\t"
 		" jmp check\n\t"
 
 		"digit:\n\t"
@@ -53,6 +57,10 @@ int main(){
 
 		"letter:\n\t"
 		" sub ah, 0x37\n\t"
+		" jmp bin8\n\t"
+
+		"little_letter:\n\t"
+		" sub ah, 0x57\n\t"
 		" jmp bin8\n\t"
 
 		"bin8:\n\t"
