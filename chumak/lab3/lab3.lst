@@ -1,0 +1,152 @@
+Microsoft (R) Macro Assembler Version 5.10                  11/12/20 10:39:1
+                                                             Page     1-1
+
+
+ 0000				AStack SEGMENT STACK
+ 0000  0020[				DW 32 DUP(?)
+	   ????			
+			 ]	
+				
+ 0040				AStack ENDS
+				
+ 0000				DATA SEGMENT
+ 0000  0002			a	DW	2
+ 0002  0001			b	DW	1
+ 0004  0002			i	DW	2
+ 0006  0001			k	DW	1
+ 0008  0000			i1	DW	?
+ 000A  0000			i2	DW	?
+ 000C  0000			res	DW	?
+ 000E				DATA ENDS
+				
+ 0000				CODE SEGMENT
+					ASSUME CS:CODE, DS:DATA, SS:AStack
+				
+ 0000				Main PROC FAR
+ 0000  B8 ---- R			mov ax, DATA
+ 0003  8E D8				mov ds, ax
+ 0005				i2_2:
+ 0005  A1 0000 R			mov ax, a
+ 0008  3B 06 0002 R			cmp ax, b
+ 000C  7F 1C				jg i2_1	;если a > b, то пере�
+				�одим к i2_1
+							;иначе a <= b, в�
+				�полняем действия дальше
+ 000E  A1 0004 R			mov ax, i	;ax = i
+ 0011  8B D8				mov bx, ax	;bx = i, ax = i
+ 0013  D1 E0				shl ax, 1	;ax = 2*i
+ 0015  03 C3				add ax, bx	;ax = 3*i
+ 0017  F7 D8				neg ax		;ax = (-3)*i
+ 0019  05 0002				add ax, 2	;ax = (-3)*i+2, что 
+				идентично ax = 2-3*i
+ 001C  A3 000A R			mov i2, ax
+ 001F				i1_2:
+ 001F  D1 E0				shl ax, 1	;ax = 4-6*i
+ 0021  05 0002				add ax, 2	;ax = 6-6*i, что и�
+				�ентично ax = -(6*i-6)
+ 0024  A3 0008 R			mov i1, ax
+ 0027  EB 16 90				jmp i3
+ 002A				i2_1:
+ 002A  A1 0004 R			mov ax, i
+ 002D  D1 E0				shl ax, 1	;ax = 2*i
+ 002F  2D 0002				sub ax, 2	;ax = 2*i-2
+ 0032  A3 000A R			mov i2, ax
+ 0035				i1_1:
+ 0035  D1 E0				shl ax, 1	;ax = 4*i-4
+ 0037  F7 D8				neg ax		;ax = 4-4*i
+ 0039  05 0010				add ax, 16	;ax = 20-4*i
+ 003C  A3 0008 R			mov i1, ax
+Microsoft (R) Macro Assembler Version 5.10                  11/12/20 10:39:1
+                                                             Page     1-2
+
+
+ 003F				i3:
+ 003F  A1 0006 R			mov ax, k
+ 0042  83 3E 0006 R 00			cmp k, 0
+ 0047  7C 13				jl i3_1	;если k < 0, то пере�
+				�одим к i3_1
+							;иначе k >= 0, в�
+				�полняем действия дальше
+ 0049  A1 000A R			mov ax, i2	;ax = i2
+ 004C  F7 D8				neg ax		;ax = -i2
+ 004E  3D FFFA				cmp ax, -6
+ 0051  7F 25				jg i3_res	;если ax > -6, то
+				 переходим к выводу -i2
+ 0053  C7 06 000C R FFFA		mov res, -6	;иначе res = -6
+ 0059  EB 20 90				jmp f_end
+ 005C				i3_1:
+ 005C  A1 0008 R			mov ax, i1	;ax = i1
+ 005F  2B 06 000A R			sub ax, i2	;ax = i1-i2
+ 0063  3D 0000				cmp ax, 0	
+ 0066  7F 02				jg i3_cmp_2	;если ax > 0, то 
+				переходим к сравнению с 2
+							;иначе берём 
+				модуль
+ 0068  F7 D8				neg ax		;ax = -i1+i2
+ 006A				i3_cmp_2:
+ 006A  3D 0002				cmp ax, 2
+ 006D  7C 09				jl i3_res	;если ax < 2, то 
+				переходим к выводу ax
+ 006F  C7 06 000C R 0002		mov res, 2
+ 0075  EB 04 90				jmp f_end	
+ 0078				i3_res:
+ 0078  A3 000C R			mov res, ax
+ 007B				f_end:
+ 007B  B4 4C				mov ah, 4ch
+ 007D  CD 21				int 21h
+ 007F				Main	ENDP
+ 007F				CODE	ENDS
+					END Main
+Microsoft (R) Macro Assembler Version 5.10                  11/12/20 10:39:1
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+ASTACK . . . . . . . . . . . . .  	0040	PARA	STACK	
+CODE . . . . . . . . . . . . . .  	007F	PARA	NONE	
+DATA . . . . . . . . . . . . . .  	000E	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+A  . . . . . . . . . . . . . . .  	L WORD	0000	DATA
+
+B  . . . . . . . . . . . . . . .  	L WORD	0002	DATA
+
+F_END  . . . . . . . . . . . . .  	L NEAR	007B	CODE
+
+I  . . . . . . . . . . . . . . .  	L WORD	0004	DATA
+I1 . . . . . . . . . . . . . . .  	L WORD	0008	DATA
+I1_1 . . . . . . . . . . . . . .  	L NEAR	0035	CODE
+I1_2 . . . . . . . . . . . . . .  	L NEAR	001F	CODE
+I2 . . . . . . . . . . . . . . .  	L WORD	000A	DATA
+I2_1 . . . . . . . . . . . . . .  	L NEAR	002A	CODE
+I2_2 . . . . . . . . . . . . . .  	L NEAR	0005	CODE
+I3 . . . . . . . . . . . . . . .  	L NEAR	003F	CODE
+I3_1 . . . . . . . . . . . . . .  	L NEAR	005C	CODE
+I3_CMP_2 . . . . . . . . . . . .  	L NEAR	006A	CODE
+I3_RES . . . . . . . . . . . . .  	L NEAR	0078	CODE
+
+K  . . . . . . . . . . . . . . .  	L WORD	0006	DATA
+
+MAIN . . . . . . . . . . . . . .  	F PROC	0000	CODE	Length = 007F
+
+RES  . . . . . . . . . . . . . .  	L WORD	000C	DATA
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  LAB3		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     78 Source  Lines
+     78 Total   Lines
+     25 Symbols
+
+  47962 + 459298 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors
