@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <fstream>
 #include <windows.h>
 #include <random>
@@ -6,17 +6,17 @@
 
 using namespace std;
 
-extern "C" { //подключаем модуль на языке ассемблера 
+extern "C" { //РїРѕРґРєР»СЋС‡Р°РµРј РјРѕРґСѓР»СЊ РЅР° СЏР·С‹РєРµ Р°СЃСЃРµРјР±Р»РµСЂР° 
 	void MYASM(short int* arr, short int* LGrInt, unsigned short* res, unsigned short NInt, unsigned short NumRanDat);
 }
 
 int main() {
-	unsigned short int NumRanDat = 0; //длина массива псевдослучайных целых чисел
-	short int xmin = 0, xmax = 0; //границы диапазона псевдослучайных чисел
-	short int* arr; //массив псевдослучайных чисел
-	unsigned short int NInt; //количество интервалов
-	short int* LGrInt; //массив левых границ интервалов
-	unsigned short int* res;//массив с количеством чисел в каждом интервале
+	unsigned short int NumRanDat = 0; //РґР»РёРЅР° РјР°СЃСЃРёРІР° РїСЃРµРІРґРѕСЃР»СѓС‡Р°Р№РЅС‹С… С†РµР»С‹С… С‡РёСЃРµР»
+	short int xmin = 0, xmax = 0; //РіСЂР°РЅРёС†С‹ РґРёР°РїР°Р·РѕРЅР° РїСЃРµРІРґРѕСЃР»СѓС‡Р°Р№РЅС‹С… С‡РёСЃРµР»
+	short int* arr; //РјР°СЃСЃРёРІ РїСЃРµРІРґРѕСЃР»СѓС‡Р°Р№РЅС‹С… С‡РёСЃРµР»
+	unsigned short int NInt; //РєРѕР»РёС‡РµСЃС‚РІРѕ РёРЅС‚РµСЂРІР°Р»РѕРІ
+	short int* LGrInt; //РјР°СЃСЃРёРІ Р»РµРІС‹С… РіСЂР°РЅРёС† РёРЅС‚РµСЂРІР°Р»РѕРІ
+	unsigned short int* res;//РјР°СЃСЃРёРІ СЃ РєРѕР»РёС‡РµСЃС‚РІРѕРј С‡РёСЃРµР» РІ РєР°Р¶РґРѕРј РёРЅС‚РµСЂРІР°Р»Рµ
 
 	ofstream result("result.txt");
 
@@ -25,7 +25,7 @@ int main() {
 	do {
 		cin.clear();
 		cin.sync();
-		cout << "Введите длину массива псевдослучайных чисел (<=16000): ";
+		cout << "Р’РІРµРґРёС‚Рµ РґР»РёРЅСѓ РјР°СЃСЃРёРІР° РїСЃРµРІРґРѕСЃР»СѓС‡Р°Р№РЅС‹С… С‡РёСЃРµР» (<=16000): ";
 		cin >> NumRanDat;
 		cout << endl;
 	} while (NumRanDat > 16000 || NumRanDat < 0);
@@ -33,7 +33,7 @@ int main() {
 	do {
 		cin.clear();
 		cin.sync();
-		cout << "Введите xmin и xmax: ";
+		cout << "Р’РІРµРґРёС‚Рµ xmin Рё xmax: ";
 		cin >> xmin >> xmax;
 		cout << endl;
 	} while (xmax <= xmin);
@@ -41,7 +41,7 @@ int main() {
 	do {
 		cin.clear();
 		cin.sync();
-		cout << "Введите количество интервалов (<=24): ";
+		cout << "Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ РёРЅС‚РµСЂРІР°Р»РѕРІ (<=24): ";
 		cin >> NInt;
 	} while (NInt > 24 || NInt < 1);
 
@@ -50,11 +50,11 @@ int main() {
 
 
 
-	cout << "\nВведите левые границы интервалов:\n";
-	cout << "1: " << xmin << endl << endl; //первая левая граница - начало диапазона, т.е. xmin
+	cout << "\nР’РІРµРґРёС‚Рµ Р»РµРІС‹Рµ РіСЂР°РЅРёС†С‹ РёРЅС‚РµСЂРІР°Р»РѕРІ:\n";
+	cout << "1: " << xmin << endl << endl; //РїРµСЂРІР°СЏ Р»РµРІР°СЏ РіСЂР°РЅРёС†Р° - РЅР°С‡Р°Р»Рѕ РґРёР°РїР°Р·РѕРЅР°, С‚.Рµ. xmin
 	LGrInt[0] = xmin;
 
-	//ввод остальных границ
+	//РІРІРѕРґ РѕСЃС‚Р°Р»СЊРЅС‹С… РіСЂР°РЅРёС†
 	for (int i = 1; i < NInt; i++) {
 		do {
 			cin.clear();
@@ -65,7 +65,7 @@ int main() {
 		} while (LGrInt[i]<xmin || LGrInt[i]>xmax);
 	}
 
-	//сортировка массива границ (по убыванию, т.к в asm модуль передаем инвертированный массив)
+	//СЃРѕСЂС‚РёСЂРѕРІРєР° РјР°СЃСЃРёРІР° РіСЂР°РЅРёС† (РїРѕ СѓР±С‹РІР°РЅРёСЋ, С‚.Рє РІ asm РјРѕРґСѓР»СЊ РїРµСЂРµРґР°РµРј РёРЅРІРµСЂС‚РёСЂРѕРІР°РЅРЅС‹Р№ РјР°СЃСЃРёРІ)
 	for (int j = 0; j < NInt - 1; j++) {
 		for (int i = 0; i < NInt - j - 1; i++) {
 			if (LGrInt[i] < LGrInt[i + 1]) {
@@ -76,7 +76,7 @@ int main() {
 		}
 	}
 
-	//равномерное распределение
+	//СЂР°РІРЅРѕРјРµСЂРЅРѕРµ СЂР°СЃРїСЂРµРґРµР»РµРЅРёРµ
 	for (int i = 0; i < NumRanDat; i++) {
 		for (int i = 0; i < NumRanDat; i++)
 			arr[i] = xmin + rand() % (xmax - xmin);
@@ -91,15 +91,15 @@ int main() {
 
 	cout << "result:\n";
 	result << "result:\n";
-	cout << "№\tЛев.Гр.\tКол-во чисел" << endl;
-	result << "№\tЛев.Гр.\tКол-во чисел" << endl;
+	cout << "в„–\tР›РµРІ.Р“СЂ.\tРљРѕР»-РІРѕ С‡РёСЃРµР»" << endl;
+	result << "в„–\tР›РµРІ.Р“СЂ.\tРљРѕР»-РІРѕ С‡РёСЃРµР»" << endl;
 	for (int i = 0; i < NInt; i++) {
 		cout << i + 1 << '\t' << LGrInt[NInt - 1 - i] << '\t' << res[NInt - 1 - i] << endl;
 		result << i + 1 << '\t' << LGrInt[NInt - 1 - i] << '\t' << res[NInt - 1 - i] << endl;
 	}
 	cout << endl << endl;
 
-	//сортировка сгенерированных чисел (для проверки)
+	//СЃРѕСЂС‚РёСЂРѕРІРєР° СЃРіРµРЅРµСЂРёСЂРѕРІР°РЅРЅС‹С… С‡РёСЃРµР» (РґР»СЏ РїСЂРѕРІРµСЂРєРё)
 	for (int j = 0; j < NumRanDat - 1; j++) {
 		for (int i = 0; i < NumRanDat - j - 1; i++) {
 			if (arr[i] > arr[i + 1]) {
@@ -110,7 +110,7 @@ int main() {
 		}
 	}
 
-	/*cout << "Сгенерированные числа: ";
+	/*cout << "РЎРіРµРЅРµСЂРёСЂРѕРІР°РЅРЅС‹Рµ С‡РёСЃР»Р°: ";
 	for (int q = 0; q < NumRanDat; q++){
 	cout << arr[q] << " ";
 	}*/
@@ -123,5 +123,4 @@ int main() {
 	delete[] LGrInt;
 	delete[] res;
 	return 0;
-
 }
