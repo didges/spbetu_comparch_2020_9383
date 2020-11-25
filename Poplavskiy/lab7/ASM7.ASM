@@ -1,0 +1,211 @@
+AStack SEGMENT STACK
+DW 400 DUP(?)
+AStack ENDS
+DATA SEGMENT;начало сегмента данных
+NUMBER DD -8
+NUMBER_CHECK DD 8
+STR DB ' ',13,10,10,'$'
+;STR_CHECK DB ' ',13,10,10,'$'
+CHAST2 DW ?
+CHAST1 DW ?
+LOW1 DW ?
+INFO1 DB 'The numbers are equal or not?! m m m...','$'
+INFO2 DB 'No',13,10,'$'
+INFO3 DB 'Yes',13,10,'$'
+DATA ENDS
+CODE SEGMENT;сегмент кода
+ASSUME SS:AStack,DS:DATA, CS:CODE
+MAIN PROC NEAR;основная функция
+PUSH DS
+SUB AX,AX
+PUSH AX
+MOV AX,DATA
+MOV DS,AX
+LEA DI,NUMBER;передача аргументов в функцию
+PUSH DI
+LEA DI,STR
+PUSH DI
+CALL NUMBERLINE;ВЫЗОВ ПРЕОБРАЗОВАНИЯ
+POP DI
+POP DI
+LEA DI,INFO1;передача аргументов через стек
+PUSH DI
+CALL PRINTSTR;ПЕЧАТЬ СТРОКИ
+POP DI
+LEA DI,STR;передача аргументов через стек
+PUSH DI
+CALL PRINTSTR;ПЕЧАТЬ СТРОКИ
+POP DI
+LEA DI,NUMBER_CHECK;передача аргументов в
+PUSH DI
+LEA DI,STR
+PUSH DI
+CALL LINENUMBER;ВЫЗОВ ПРЕОБРАЗОВАНИЯ СТР В ЧИС
+POP DI
+POP DI
+LEA DI,NUMBER
+MOV AX,[DI]
+ADD DI,2
+MOV DX,[DI]
+LEA DI,NUMBER_CHECK
+CMP AX,[DI]
+JNE PRINTNO
+ADD DI,2
+CMP DX,[DI]
+JNE PRINTNO
+LEA DI,INFO3
+JMP PRINTTEXT
+PRINTNO: Lea DI,INFO2
+PRINTTEXT:PUSH DI
+CALL PRINTSTR;ПЕЧАТЬ СТРОКИ
+POP DI
+MOV AH,4CH
+INT 21H
+MAIN ENDP
+PRINTSTR PROC;функция печати строки
+PUSH DX
+PUSH BP
+MOV BP, SP
+MOV DX,[BP+6]
+PUSH AX
+MOV AH,09H
+INT 21h
+POP AX
+POP BP
+POP DX
+RET
+PRINTSTR ENDP
+NUMBERLINE PROC;функция преобразования из числа в строку
+PUSH AX
+PUSH CX
+PUSH DX
+PUSH BX
+PUSH SP
+PUSH BP
+PUSH SI
+PUSH DI
+MOV BP, SP
+MOV DI,[BP+16]
+MOV AX,[DI]
+ADD DI,2
+MOV DX,[DI]
+MOV DI,[BP+14]
+SUB CL,CL
+cycle: SUB CH,CH;ЦИКЛ ДЛЯ ДВОЙНОГО СЛОВА
+CMP DX,00
+JZ next;ДЕЛЕНИЕ НА 2
+SHR AX,1
+ADC CH,00H
+SHR DX,1
+JNC D10
+OR AH,10000000B
+D10: MOV BX,65535;1 ЭТАП ДЕЛЕНИЯ
+DIV BX
+MOV CHAST1,AX;ВТОРОЙ ЭТАП ДЕЛЕНИЯ
+MOV AX,DX
+SUB DX,DX
+MOV BX,5
+DIV BX
+MOV CHAST2,AX;ПОЛУЧЕНИЕ ОСТАТКА
+SHL DX,1
+ADD DL,CH
+ADD DX,30H
+PUSH DX
+INC CL;ПОЛУЧЕНИЕ ЧАСТНОГО
+SUB DX,DX
+SUB AX,AX
+MOV AX,13107
+MUL CHAST1
+ADD AX,CHAST2
+ADC DX,00H
+JMP cycle;КОНЕЦ ЦИКЛА
+next:;ЦИКЛ ДЛЯ СЛОВА
+MOV BX,10
+cycle2: DIV BX
+ADD DX,30H
+PUSH DX
+INC CL
+SUB DX,DX
+CMP AX,00
+JNE cycle2;КОНЕЦ ЦИКЛА
+SUB CH,CH
+cycle3: POP DX;ЗАПОЛНЕНИЕ СТРОКИ СИМВОЛАМИ
+MOV [DI],DL
+INC DI
+LOOP cycle3
+POP DI
+POP SI
+POP BP
+POP BP
+POP BX
+POP DX
+POP CX
+POP AX
+RET
+NUMBERLINE ENDP
+LINENUMBER PROC;функция перевода сторки в число
+PUSH AX
+PUSH CX
+PUSH DX
+PUSH BX
+PUSH SP
+PUSH BP
+PUSH SI
+PUSH DI
+MOV BP, SP
+MOV DI,[BP+14];получение обратноо числа
+SUB CX,CX
+SUB AX,AX
+SUB DX,DX
+MOV BX,10
+LEA DI,STR
+MOV CL,[DI]
+SUB CL,30H
+ADD AL,CL
+INC DI
+CYCLE4:;ДЛЯ ЧИСЛА РАЗМЕРОМ СО СЛОВО
+MOV CL,[DI]
+CMP CL,' '
+JE endprog
+MUL BX
+SUB CL,30H
+ADD AL,CL
+ADC DX,00H
+INC DI
+CMP DX,00
+JZ CYCLE4
+CYCLE5:;ДЛЯ ЧИСЛА РАЗМЕРОМ В ДВОЙНОЕ СЛОВО
+MOV CL,[DI]
+CMP CL,' '
+JE endprog
+MOV CHAST2,DX
+MUL BX
+MOV LOW1,AX
+MOV CHAST1,DX
+MOV AX,CHAST2
+MUL BX
+ADD AX,CHAST1
+MOV DX,AX
+MOV AX,LOW1
+SUB CL,30H
+ADD AL,CL
+ADC DX,00H
+INC DI
+JMP CYCLE5
+endprog:
+MOV DI,[BP+16];ЧИСЛО В ПАМЯТЬ
+MOV [DI],AX
+ADD DI,2
+MOV [DI],DX
+POP DI
+POP SI
+POP BP
+POP BP
+POP BX
+POP DX
+POP CX
+POP AX
+RET
+LINENUMBER ENDP
+CODE ENDS
+END MAIN
